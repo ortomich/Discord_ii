@@ -9,36 +9,30 @@ import re
 urllib3.disable_warnings()
 
 print("Bot by Tëma | Crypto Hub x Flexter")
-#discordtoken = input('Введите токен от аккаунта: ')
+discordToken = input('Введите токен от аккаунта: ')
 chatid = input('Введите id чата: ')
 pause = int(input('Введите кулдаун в чате в секундах: '))
 lang = input('На каком языке чат (rus/eng): ')
-typing_sleep=int(input('Введите время имитирования печатания сообщения: '))
-account_counts = int(len(re.findall(r"[\n']+", open('tokens.txt').read())))
+typing_sleep = int(input('Введите время имитирования печатания сообщения: '))
 message = ""
 dictMain = {}
 arrKeys = []
 aurhors = []
 messagelist = []
-discordtokens =[]
-with open('message.txt',encoding="utf8") as msg:
+discordtokens = []
+
+with open('message.txt', encoding="utf8") as msg:
     lines = msg.readlines()
     for line in lines:
         messagelist.append(line)
 
-
-with open('tokens.txt', encoding='utf8') as tokens:
-    token = tokens.readlines()
-    for discordtoken in token:
-        discordtokens.append(discordtoken.rstrip())
-
 session = requests.Session()
-session.headers['authorization'] = discordtoken
+session.headers['authorization'] = discordToken
 
 r = session.get(f'https://discord.com/api/v9/channels/{chatid}/messages?limit=1')
-#lastid = loads(r.text)[0]['id']
 
 r = session.get(f'https://discord.com/api/v9/channels/{chatid}/messages?limit=12')
+
 def random_message_sent(discordtoken):
     session = requests.Session()
     session.headers['authorization'] = discordtoken
@@ -55,7 +49,6 @@ def random_message_sent(discordtoken):
         print(f'Successfully sent random message [{randommessage}] without reply on the account with name [{username}].')
     sleep(pause)
 
-
 def BotAnswer(discordtoken):
     session = requests.Session()
     session.headers['authorization'] = discordtoken
@@ -71,10 +64,11 @@ def BotAnswer(discordtoken):
         dictMain[ids] = message
         arrKeys.append(ids)
 
-    num = randint(0,9)
+    num = randint(0, 9)
 
     if lang == "rus":
         otvet = str(botik.rus_bot_rand(dictMain[arrKeys[num]]))
+
     if lang == "eng":
         otvet = str(botik.eng_bot_rand(dictMain[arrKeys[num]]))
 
@@ -100,17 +94,5 @@ def main(discordtoken):
         except Exception as ex:
             print(ex)
 
-# while (1):
-#     try:
-#         BotAnswer()
-#         sleep(pause)
-#         x = randint(1, 3)
-#         if x ==2:
-#             random_message_sent(discordtoken)
-#             sleep(pause)
-#     except Exception as ex:
-#         print(ex)
-
 if __name__=='__main__':
-    p = Pool(processes=account_counts+1)
-    p.map(main, discordtokens)
+    main(discordToken)
