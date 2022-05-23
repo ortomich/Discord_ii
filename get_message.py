@@ -13,6 +13,10 @@ discordToken = input('Введите токен от аккаунта: ')
 chatid = input('Введите id чата: ')
 pause = int(input('Введите кулдаун в чате в секундах: '))
 lang = input('На каком языке чат (rus/eng): ')
+iiProb = int(input('Вероятность ответа ИИ (0-100): '))
+numOfMessages = int(input('Количество сообщений (введите 0, чтобы пропустить): '))
+if (numOfMessages!=0):
+    freqOfNotif = int(input('Частота вывода количества сообщений: '))
 typing_sleep = int(input('Введите время имитирования печатания сообщения: '))
 message = ""
 dictMain = {}
@@ -84,15 +88,28 @@ def BotAnswer(discordtoken):
     sleep(pause)
 
 def main(discordtoken):
-    while True:
-        try:
-            x = randint(1, 10)
-            if x <= 7:
-                random_message_sent(discordtoken)
-            else:
-                BotAnswer(discordtoken)
-        except Exception as ex:
-            print(ex)
+    if (numOfMessages==0):
+        while (True):
+            try:
+                x = randint(1, 100)
+                if x >= iiProb:
+                    random_message_sent(discordtoken)
+                else:
+                    BotAnswer(discordtoken)
+            except Exception as ex:
+                print(ex)
+    else:
+        for i in range(1, numOfMessages):
+            try:
+                x = randint(1, 100)
+                if x >= iiProb:
+                    random_message_sent(discordtoken)
+                else:
+                    BotAnswer(discordtoken)
+                if (i%freqOfNotif==0):
+                    print(f'\033[1;31m ######### Отправленно {i} сообщений #########\033[0;0m')
+            except Exception as ex:
+                print(ex)
 
 if __name__=='__main__':
     main(discordToken)
