@@ -89,6 +89,7 @@ def BotAnswer(discordtoken):
 
 def main(discordtoken):
     if (numOfMessages==0):
+        tmp=0
         while (True):
             try:
                 x = randint(1, 100)
@@ -96,6 +97,8 @@ def main(discordtoken):
                     random_message_sent(discordtoken)
                 else:
                     BotAnswer(discordtoken)
+                tmp+=1
+                print(f'\033[1;31m ######### Отправленно {tmp} сообщений #########\033[0;0m')
             except Exception as ex:
                 print(ex)
     else:
