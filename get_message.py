@@ -126,7 +126,7 @@ def main(discordtoken):
         while (True):
             try:
                 x = randint(1, 100)
-                if x <= iiProb:
+                if x >= iiProb:
                     random_message_sent(discordtoken)
                 else:
                     BotAnswer(discordtoken)
@@ -139,7 +139,7 @@ def main(discordtoken):
         for i in range(1, numOfMessages):
             try:
                 x = randint(1, 100)
-                if x <= iiProb:
+                if x >= iiProb:
                     random_message_sent(discordtoken)
                 else:
                     BotAnswer(discordtoken)
